@@ -42,8 +42,12 @@ ggplot(data = mpg, aes(x = displ, y = hwy, shape = class)) +
   geom_point()
 ```
 
-## 
+### `size` and  `color`
 
+```{r scatter shape color}
+ggplot(data = mpg, aes(x = cty, y = hwy, size = class)) +
+  geom_point(alpha=0.2, color ="blue")
+```
 
 
 ## Boxplot
