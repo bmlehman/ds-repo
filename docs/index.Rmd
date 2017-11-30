@@ -51,3 +51,73 @@ ggplot(data = mpg, aes(x = cty, y = hwy, size = class)) +
 
 
 ## Boxplot
+
+
+##Exercise
+
+```{r exercise}
+ggplot(data = mpg) + 
+      geom_point(aes(x = displ, y = hwy, color = "blue"))
+
+```
+
+
+## Geoms
+
+```{r geom_examples}
+
+ggplot(mpg, aes(x=drv, y=hwy)) +
+  geom_violin()
+
+```
+
+
+## Multiple geoms
+
+```{r mult_geoms}
+
+ggplot(data = mpg) +
+  geom_point(aes(x=displ, y=hwy)) +
+  geom_smooth(aes(x=displ, y=hwy))
+
+
+ggplot(data=mpg, aes(x=displ, y=hwy)) +
+  geom_point() +
+  geom_smooth()
+
+
+
+```
+
+
+## Customization
+
+```{r mult_geoms}
+
+ggplot(data = mpg) +
+  geom_point(aes(x=displ, y=hwy)) +
+  geom_smooth(aes(x=displ, y=hwy))
+
+
+ggplot(data=mpg, aes(x=displ, y=hwy)) +
+  geom_point() +
+  geom_smooth() +
+  labs(title ="Relationship b/w engine size and mpg",
+       x = "engine disp",
+       y = "highway mpg") +
+  theme_bw() +
+  theme(text = element_text(size = 16))
+
+
+```
+
+## My plot
+
+```{r car categories}
+
+ggplot(data=mpg, aes(x=year, y=displ)) +
+  geom_point()
+
+```
+
+
