@@ -368,6 +368,62 @@ gapminder %&gt;%
   summarize(mean(lifeExp))
 </code></pre>
 </div>
+<div id="select-by-columns" class="section level2">
+<h2>select by columns</h2>
+<pre class="data"><code>
+select(gapminder, year, lifeExp)
+
+gapminder %&gt;%
+  select(year, lifeExp) %&gt;% 
+  tail()
+
+## combine what we've learned
+
+gapminder %&gt;% 
+  filter(country == &quot;Cambodia&quot;) %&gt;% 
+  select(country, year, pop, gdpPercap)
+
+
+gapminder %&gt;% 
+  filter(country == &quot;Cambodia&quot;) %&gt;% 
+  select(-continent, -lifeExp)
+
+## a few more things with filter
+gapminder %&gt;% 
+  filter(country == &quot;Mexico&quot;, year == 2002)
+
+## mutate() to add columns
+
+gapminder %&gt;% 
+  mutate(gdp = pop * gdpPercap)
+
+## let's add an index
+gapminder %&gt;% 
+  mutate(index = 1:nrow(gapminder))
+
+
+gapminder %&gt;% 
+  filter(country %in% c(&quot;Egypt&quot;, &quot;Vietnam&quot;)) %&gt;% 
+  mutate(max_gdp_cap = max(gdpPercap))
+
+##group_by() so that we can get 2 maxes
+gapminder %&gt;% 
+  filter(country %in% c(&quot;Egypt&quot;, &quot;Vietnam&quot;)) %&gt;% 
+  group_by(country) %&gt;% 
+  summarize(max_gdpPercap = max(gdpPercap))
+
+##for all countries
+gapminder %&gt;% 
+  group_by(country) %&gt;% 
+  summarize(max_gdpPercap = max(gdpPercap))
+
+##let's keep the year associated with tat max_dgp
+l &lt;- gapminder %&gt;% 
+  group_by(country) %&gt;% 
+  mutate(max_gdpPercap = max(gdpPercap)) %&gt;% 
+  filter(max_gdpPercap == gdpPercap)
+</code></pre>
+</div>
 
 
 

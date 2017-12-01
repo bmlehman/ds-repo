@@ -92,7 +92,7 @@ ggplot(data=mpg, aes(x=displ, y=hwy)) +
 
 ## Customization
 
-```{r mult_geoms}
+```{r custom}
 
 ggplot(data = mpg) +
   geom_point(aes(x=displ, y=hwy)) +
@@ -119,5 +119,119 @@ ggplot(data=mpg, aes(x=year, y=displ)) +
   geom_point()
 
 ```
+
+
+
+
+## Data Wrangling with `dplyr`
+
+```{preamble}
+
+gapminder <- read_csv("https://raw.githubusercontent.com/OHI-Science/data-science-training/master/data/gapminder.csv")
+
+gapminder
+
+## useful functions to get to know your data
+head(gapminder, 30)
+
+str(gapminder)
+
+## column headers
+names(gapminder)
+
+dim(gapminder)
+ncol(gapminder)
+
+# combine with c()
+c(nrow(gapminder), ncol(gapminder))
+
+summary(gapminder)
+
+## look at just single column
+```
+
+## actually working with dplyr
+
+```{working with dplyr}
+
+filter(gapminder, lifeExp < 29)
+
+mean(filter(gapminder, country == "Sweden")$lifeExp)
+
+##pipe operator `%>%`
+
+gapminder %>% head()
+
+
+gapminder %>% 
+  filter(country == "Sweden") %>% 
+  summarize(mean(lifeExp))
+
+
+
+
+```
+
+## select by columns
+
+```{data manip by column}
+
+select(gapminder, year, lifeExp)
+
+gapminder %>%
+  select(year, lifeExp) %>% 
+  tail()
+
+## combine what we've learned
+
+gapminder %>% 
+  filter(country == "Cambodia") %>% 
+  select(country, year, pop, gdpPercap)
+
+
+gapminder %>% 
+  filter(country == "Cambodia") %>% 
+  select(-continent, -lifeExp)
+
+## a few more things with filter
+gapminder %>% 
+  filter(country == "Mexico", year == 2002)
+
+## mutate() to add columns
+
+gapminder %>% 
+  mutate(gdp = pop * gdpPercap)
+
+## let's add an index
+gapminder %>% 
+  mutate(index = 1:nrow(gapminder))
+
+
+gapminder %>% 
+  filter(country %in% c("Egypt", "Vietnam")) %>% 
+  mutate(max_gdp_cap = max(gdpPercap))
+
+##group_by() so that we can get 2 maxes
+gapminder %>% 
+  filter(country %in% c("Egypt", "Vietnam")) %>% 
+  group_by(country) %>% 
+  summarize(max_gdpPercap = max(gdpPercap))
+
+##for all countries
+gapminder %>% 
+  group_by(country) %>% 
+  summarize(max_gdpPercap = max(gdpPercap))
+
+##let's keep the year associated with tat max_dgp
+l <- gapminder %>% 
+  group_by(country) %>% 
+  mutate(max_gdpPercap = max(gdpPercap)) %>% 
+  filter(max_gdpPercap == gdpPercap)
+
+
+
+```
+
+
 
 
